@@ -44,8 +44,8 @@ NAN_METHOD(DecompressBinding::Sync) {
 }
 
 NAN_MODULE_INIT(Init) {
-    Nan::SetMethod(target, "compress", CompressBinding::Sync);
-    Nan::SetMethod(target, "decompress", DecompressBinding::Sync);
+    Nan::SetMethod(target, "compressSync", CompressBinding::Sync);
+    Nan::SetMethod(target, "decompressSync", DecompressBinding::Sync);
 }
 
 NODE_MODULE(lzfse, Init)

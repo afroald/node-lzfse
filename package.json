@@ -2,6 +2,7 @@
   "name": "lzfse",
   "version": "0.0.0",
   "description": "Bindings for the LZFSE compression library.",
+  "main": "lzfse.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "node-gyp rebuild",
