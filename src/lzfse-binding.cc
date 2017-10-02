@@ -9,9 +9,13 @@ using namespace node;
 
 NAN_METHOD(CompressBinding::Sync) {
     Local<Object> in_buffer = info[0]->ToObject();
-    uint8_t *in = (uint8_t *)Buffer::Data(in_buffer);
     size_t in_size = Buffer::Length(in_buffer);
 
+    if (in_size == 0) {
+        Nan::ThrowRangeError("Input is empty");
+    }
+
+    uint8_t *in = (uint8_t *)Buffer::Data(in_buffer);
     size_t out_allocated = in_size;
     size_t out_size = 0;
     size_t aux_allocated = lzfse_encode_scratch_size();
@@ -31,9 +35,17 @@ NAN_METHOD(CompressBinding::Sync) {
 
 NAN_METHOD(DecompressBinding::Sync) {
     Local<Object> in_buffer = info[0]->ToObject();
-    uint8_t *in = (uint8_t *)Buffer::Data(in_buffer);
     size_t in_size = Buffer::Length(in_buffer);
 
+    if (in_size * 4 > SIZE_MAX) {
+        Nan::ThrowRangeError("Input is too large");
+    }
+
+    if (in_size == 0) {
+        Nan::ThrowRangeError("Input is empty");
+    }
+
+    uint8_t *in = (uint8_t *)Buffer::Data(in_buffer);
     size_t out_allocated = (4 * in_size);
     size_t out_size = 0;
     size_t aux_allocated = lzfse_decode_scratch_size();
