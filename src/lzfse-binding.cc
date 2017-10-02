@@ -28,8 +28,8 @@ NAN_METHOD(CompressBinding::Sync) {
     info.GetReturnValue()
         .Set(Nan::NewBuffer((char*)out, out_size).ToLocalChecked());
 
-    free(in);
-    free(out);
+    // free(in);
+    // free(out);
     free(aux);
 }
 
@@ -58,8 +58,8 @@ NAN_METHOD(DecompressBinding::Sync) {
     info.GetReturnValue()
         .Set(Nan::NewBuffer((char*)out, out_size).ToLocalChecked());
     
-    free(in);
-    free(out);
+    // free(in);
+    // free(out);
     free(aux);
 }
 
