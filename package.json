@@ -1,15 +1,14 @@
 {
   "name": "lzfse",
   "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Bindings for the LZFSE compression library.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "node-gyp rebuild",
     "gyp": "node-gyp"
   },
   "author": "Roald Hacquebord <roald@hacquebordbuckles.nl>",
-  "license": "ISC",
+  "license": "MIT",
   "gypfile": true,
   "devDependencies": {
     "eslint": "^4.8.0",
