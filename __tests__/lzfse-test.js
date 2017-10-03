@@ -8,16 +8,16 @@ const lzfse = require('../lzfse');
 const readFile = promisify(fs.readFile);
 
 const testFile = path.resolve(__dirname, 'data/text-100kb.txt');
-const smallTestFile = path.resolve(__dirname, 'data/text-1b.txt');
+const smallUncompressableTestFile = path.resolve(__dirname, 'data/text-1b.txt');
 const uncompressableTestFile = path.resolve(__dirname, 'data/whitenoise.wav');
 
 describe('lzfse compression', () => {
   it('compresses', async () => {
-    const inputBuffer = await readFile(testFile);
-    const outputBuffer = lzfse.compressSync(inputBuffer);
+    const input = await readFile(testFile);
+    const output = lzfse.compressSync(input);
 
-    expect(Buffer.byteLength(outputBuffer)).toBeGreaterThan(0);
-    expect(Buffer.byteLength(outputBuffer)).toBeLessThanOrEqual(Buffer.byteLength(inputBuffer));
+    expect(Buffer.byteLength(output)).toBeGreaterThan(0);
+    expect(Buffer.byteLength(output)).toBeLessThanOrEqual(Buffer.byteLength(input));
   });
 
   it('throws error when input buffer is empty', async () => {
@@ -26,6 +26,23 @@ describe('lzfse compression', () => {
     expect(() => {
       lzfse.compressSync(input);
     }).toThrow('Input is empty');
+  });
+
+  it('doesn\'t break on uncompressable files', () => {
+    const testPromises = [smallUncompressableTestFile, uncompressableTestFile].map((file) => {
+      return async () => {
+        const input = await readFile(file);
+        let output;
+
+        expect(() => {
+          output = lzfse.compressSync(input);
+        }).not.toThrow();
+
+        expect(Buffer.byteLength(output)).toBeGreaterThanOrEqual(Buffer.byteLength(input));
+      };
+    });
+
+    return Promise.all(testPromises);
   });
 });
 
