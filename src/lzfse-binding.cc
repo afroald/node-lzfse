@@ -37,7 +37,7 @@ NAN_METHOD(DecompressBinding::Sync) {
     Local<Object> in_buffer = info[0]->ToObject();
     size_t in_size = Buffer::Length(in_buffer);
 
-    if (in_size * 4 > SIZE_MAX) {
+    if (in_size > SIZE_MAX / 4) {
         Nan::ThrowRangeError("Input is too large");
     }
 
