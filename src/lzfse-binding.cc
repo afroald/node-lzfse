@@ -68,10 +68,10 @@ NAN_METHOD(CompressBinding::Sync) {
         break;
     }
 
-    free(aux);
-
     info.GetReturnValue()
         .Set(Nan::NewBuffer((char*)output, output_size).ToLocalChecked());
+
+    free(aux);
 }
 
 NAN_METHOD(DecompressBinding::Sync) {
@@ -130,10 +130,10 @@ NAN_METHOD(DecompressBinding::Sync) {
         break;
     }
 
-    free(aux);
-
     info.GetReturnValue()
         .Set(Nan::NewBuffer((char*)output, output_size).ToLocalChecked());
+
+    free(aux);
 }
 
 NAN_MODULE_INIT(Init) {
