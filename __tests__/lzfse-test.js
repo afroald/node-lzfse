@@ -15,6 +15,15 @@ describe('lzfse compressSync', () => {
       lzfse.compressSync(input);
     }).toThrow('Input is empty');
   });
+
+  it('doesn\'t modify the input buffer', async () => {
+    const originalInput = await readFile(path.resolve(__dirname, 'data/text-100kb.txt'));
+    const input = Buffer.from(originalInput);
+
+    lzfse.compressSync(input);
+
+    expect(originalInput.equals(input)).toBe(true);
+  });
 });
 
 describe('lzfse decompressSync', () => {
