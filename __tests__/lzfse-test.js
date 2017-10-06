@@ -34,6 +34,14 @@ describe('lzfse decompressSync', () => {
       lzfse.decompressSync(input);
     }).toThrow('Input is empty');
   });
+
+  it('doesn\'t crash on bomb', async () => {
+    const input = await readFile(path.resolve(__dirname, 'data/bomb.lzfse'));
+
+    expect(() => {
+      lzfse.decompressSync(input);
+    }).toThrow();
+  });
 });
 
 describe('lzfse', () => {
