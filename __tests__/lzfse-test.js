@@ -16,6 +16,12 @@ describe('lzfse compressSync', () => {
     }).toThrow('Input is empty');
   });
 
+  it('throws an error when the input is not a buffer', () => {
+    expect(() => {
+      lzfse.compressSync('invalid input');
+    }).toThrow();
+  });
+
   it('doesn\'t modify the input buffer', async () => {
     const originalInput = await readFile(path.resolve(__dirname, 'data/text-100kb.txt'));
     const input = Buffer.from(originalInput);
@@ -33,6 +39,12 @@ describe('lzfse decompressSync', () => {
     expect(() => {
       lzfse.decompressSync(input);
     }).toThrow('Input is empty');
+  });
+
+  it('throws an error when the input is not a buffer', () => {
+    expect(() => {
+      lzfse.decompressSync('invalid input');
+    }).toThrow();
   });
 
   it('doesn\'t crash on bomb', async () => {
