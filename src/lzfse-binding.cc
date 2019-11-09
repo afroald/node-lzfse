@@ -88,8 +88,14 @@ NAN_METHOD(CompressBinding::Sync) {
         return;
     }
 
-    Local<Object> input_buffer = info[0]->ToObject();
+    Isolate* isolate = info.GetIsolate();
+    Local<Context> context = isolate->GetCurrentContext();
+    Local<Object> input_buffer;
     Local<Object> output_buffer;
+
+    if (!info[0]->ToObject(context).ToLocal(&input_buffer)) {
+        Nan::ThrowTypeError("Invalid input");
+    }
 
     Lzfse(LZFSE_ENCODE, input_buffer, output_buffer);
 
@@ -102,8 +108,14 @@ NAN_METHOD(DecompressBinding::Sync) {
         return;
     }
 
-    Local<Object> input_buffer = info[0]->ToObject();
+    Isolate* isolate = info.GetIsolate();
+    Local<Context> context = isolate->GetCurrentContext();
+    Local<Object> input_buffer;
     Local<Object> output_buffer;
+
+    if (!info[0]->ToObject(context).ToLocal(&input_buffer)) {
+        Nan::ThrowTypeError("Invalid input");
+    }
 
     Lzfse(LZFSE_DECODE, input_buffer, output_buffer);
 
